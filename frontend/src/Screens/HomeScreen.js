@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { listproducts } from './../actions/productAction';
+
 import axios from 'axios';
 
 const HomeScreen = (props) => {
+    const productList = useSelector((state) => state.productList);
+    const dispatch = useDispatch();
+    const { error, products, loading } = productList;
     const [products, setProducts] = useState([]);
     useEffect(() => {
-        const fetchData = async () => {
-            const { data } = await axios.get(
-                'http://localhost:5000/api/products'
-            );
-            setProducts(data);
-        };
-        fetchData();
+        dispatch(listproducts());
         return () => {};
     }, []);
     return (
